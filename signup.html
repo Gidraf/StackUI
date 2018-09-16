@@ -22,32 +22,31 @@
     </header>
 
     <div class="signin_content">
-      <form action="https://stackoverflowgidraf.herokuapp.com/auth/register"
-       class="signup_form" onsubmit="register_user(event, this)" method="post">
+      <form id="signupform" method="post" onsubmit="register_user(event)" class="signup_form">
         <fieldset>
           <legend>Signup</legend>
           <label for="username">Username</label>
           <br>
-          <input type="text" name="username" required placeholder="Username">
+          <input type="text" name="username" min="6" max="60" required placeholder="Username">
           <br>
           <label for="email">Email</label>
           <br>
-          <input type="email" placeholder="Email" required name="email" value="">
+          <input type="email" placeholder="Email" min="6" max="60" required name="email" value="">
           <br>
           <label for="password">Password</label>
           <br>
-          <input type="password" name="password" required value="" placeholder="Password">
+          <input type="password" name="password" min="6" max="60" required value="" placeholder="Password">
           <br>
           <label for="confirm_password">Confirm Password</label>
           <br>
-          <input type="password" name="confirm_password" required value="" placeholder="Confirm Password">
+          <input type="password" name="confirm_password" required min="6" max="60" value="" placeholder="Confirm Password">
           <br>
         </fieldset>
-        <span id="error" class="hide">error please check</span>
         <br>
+        <span id="error" class="hide">error please check</span>
         <button type="submit" name="signup">Signup</button>
         <br>
-        <span> Already have an account? <a href="signin.html">Signin here</a></span>
+        <span id="account_question"> Already have an account? <a href="signin.html">Signin here</a></span>
       </form>
     </div>
   <script type="text/javascript" src="static/js/user_script.js"></script>

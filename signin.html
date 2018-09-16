@@ -29,16 +29,17 @@
       </div>
       </div>
     </header>
+    
     <!--signup form-->
-
     <div class="signin_content">
-      <form class="signin_form" action="#" method="">
+      <form id="signinForm" class="signin_form" onsubmit="login_user(event)" method="post">
         <fieldset>
           <legend>Signin</legend>
-          <input type="email" placeholder="Email" required name="email" value="">
+          <input type="text" placeholder="Username" min="6" max="60" required name="username" value="">
           <br>
-          <input type="password" name="password" required value="" placeholder="Password">
+          <input type="password" min="6" max="60" name="password" required value="" placeholder="Password">
         </fieldset>
+        <span id="error" class="hide">error please check</span>
         <button id="signin" type="submit" name="signup">Signin</button>
         <br>
         <a href="#"><span>Forget password?</span></a>
@@ -47,6 +48,6 @@
       </form>
 
     </div>
-
+    <script type="text/javascript" src="static/js/user_script.js"></script>
   </body>
 </html>
