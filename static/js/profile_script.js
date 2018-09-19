@@ -1,25 +1,20 @@
 // script should fetch all user's questions
 // script should allow user to edit,delete question
-var token = localStorage.getItem('token')
-var user  = parseJwt(token)["identity"]
-const forum_content =document.getElementById('forum_content')
+var token = localStorage.getItem('token'); // get token
+var user  = parseJwt(token)["identity"]; // decode token
+const forum_content =document.getElementById('forum_content');
+var form  = document.getElementById('question_form');
+var update_form = document.getElementById('update_form');
+var question_modal = document.getElementById('question_modal')
+var update_modal = document.getElementById('update_modal')
+var error = document.getElementById('error')
+var username = document.getElementById('username')
+var question_answered = document.getElementById('question_answered')
+var question_asked = document.getElementById('question_asked')
+username.innerHTML = user['username']
+window.onload = get_user_questions();
 
-get_user_questions()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// get user questions and populate it to the views
 function get_user_questions(){
   var url = "http://localhost:5000/api/v1/user/questions/"+user["userid"]
   fetch(url,{
@@ -30,9 +25,10 @@ function get_user_questions(){
 ).then(function(response){
   if (response.status === 200){
     response.json().then(function (data){
-      var questions = data["result"]
+      var questions = data["result"];
+      question_asked.innerHTML = questions.length + " questions"
       for (i=0;i<questions.length;i++){
-        id = questions[i]["questions"]["questionid"]
+        id = questions[i]["questions"]["questionid"];
         var question_holder = document.createElement("div")
         var image_holder  = document.createElement("div")
         var username = document.createElement("span")
@@ -55,6 +51,9 @@ function get_user_questions(){
         delete_btn.id = questions[i]["questions"]["questionid"]
         delete_btn.addEventListener('click',delete_question)
         edit_btn.className = "edit"
+        edit_btn.idValue = questions[i]["questions"]["questionid"]
+        edit_btn.titleValue = questions[i]["questions"]["title"]
+        edit_btn.descriptionValue = questions[i]["questions"]["description"]
         question_link.href = "question.html";
         image.src = "static/css/img/avatar.png";
         image_holder.appendChild(image);
@@ -65,6 +64,7 @@ function get_user_questions(){
         time.innerHTML = questions[i]["questions"]["time_created"]
         delete_btn.innerHTML = "Delete"
         edit_btn.innerHTML = "Edit"
+        edit_btn.addEventListener("click",show_update_modal)
         question_link.appendChild(question_title)
         question_holder.appendChild(image_holder)
         question_holder.appendChild(username)
@@ -83,23 +83,25 @@ function get_user_questions(){
   else  if (response.status === 401){
     window.location.href = "signin.html"
   }
+  else  if (response.status === 404){
+    alert("No question found")
+  }
 }).then(function (data){
 
 })
 }
+// decode token
 function parseJwt (token) {
             var base64Url = token.split('.')[1];
             var base64 = base64Url.replace('-', '+').replace('_', '/');
             return JSON.parse(window.atob(base64));
 };
-
-
+// post question
 function post_question(e){
   var token = localStorage.getItem("token")
-  const error = document.getElementById('error')
   e.preventDefault();
-  form  = document.getElementById('question_form')
-  data = JSON.stringify({title:form.title.value, description:form.description.value})
+  data = JSON.stringify({title:form.title.value,
+    description:form.description.value})
   url = "http://localhost:5000/api/v1/add_question"
   fetch(url,{
     method:"POST",
@@ -110,13 +112,15 @@ function post_question(e){
 }).then(function (response){
   if (response.status === 201){
     alert("Question asked")
+    while (forum_content.firstChild) {
+      forum_content.removeChild(forum_content.firstChild)
+    }
     get_user_questions()
     close_modal()
   }
   else if (response.status ===  400)  {
     response.json().then(function (data){
       error.style.display = "block"
-      error.style.background = "ghostwhite"
       error.textContent = data["error"]
     })
   }
@@ -131,6 +135,7 @@ function post_question(e){
 })
 }
 
+// delete question
 function delete_question(event) {
   id = event.target.id
   url = "http://localhost:5000/api/v1/delete_question/"+id
@@ -152,5 +157,55 @@ function delete_question(event) {
     get_user_questions()
   }
 })
+}
 
+function show_update_modal(event) {
+  update_form.title.value= event.target.titleValue
+  update_form.title.id=event.target.idValue // store id value to title
+  update_form.description.value = event.target.descriptionValue
+  update_modal.classList.toggle('question_modal')
+}
+
+function update_question(event){
+  event.preventDefault();
+  error = document.getElementById('update_error')
+  url = "http://localhost:5000/api/v1/update_question/"+ update_form.title.id
+  data = JSON.stringify({"title":update_form.title.value,
+  "description":update_form.description.value})
+  fetch(url,{
+    method: "PUT",
+    body: data,
+    headers:{"content-type":"application/json; charset = UTF-8",
+    "Authorization":"Bearer "+token
+  }
+}).then(function (response) {
+  if (response.status === 200){
+    alert ("question updated")
+    response.json().then(function (data){
+      while (forum_content.firstChild) {
+        forum_content.removeChild(forum_content.firstChild)
+      }
+      close_update_modal()
+      get_user_questions()
+    })
+  }
+  else if (response.status === 400) {
+    response.json().then(function (data){
+      error.style.display = "block";
+      error.style.color = 'red'
+      error.textContent = data["error"]
+
+    })
+  }
+})
+}
+
+function close_update_modal() {
+  update_modal.classList.toggle("question_modal")
+}
+
+window.onclick= function (event) {
+  if(event.target==update_modal){
+    update_modal.classList.toggle('question_modal')
+  }
 }
