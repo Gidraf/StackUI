@@ -1,6 +1,5 @@
 
 //this module is intented to run web js script
-
 //init ask_question modal
 var question_modal =document.getElementById('question_modal')
 // init downvote button
@@ -9,6 +8,7 @@ var isopen=false;
 // init ask questio button
 var ask_question=document.getElementById('ask_question');
 
+var token = localStorage.getItem("token")
 // init answers votes
 var votes=0
 
@@ -20,17 +20,6 @@ function open_model () {
   question_modal.classList.toggle('question_modal')
 }
 
-function vote_downvote()
-{
-  votes--
-  downvote_btn.textContent=votes + " votes";
-
-}
-
-function vote_upvote(){
-  votes++
-  downvote_btn.textContent=votes + " votes";
-}
 
 
 //closes the question_modal on cancel clicked

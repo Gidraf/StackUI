@@ -43,7 +43,6 @@ function get_questions() {
     question_holder.appendChild(clear)
     question_holder.appendChild(question_link)
     forum_content.appendChild(question_holder)
-    console.log(answers)
   }
 })
 }

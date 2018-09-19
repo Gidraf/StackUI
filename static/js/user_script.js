@@ -21,7 +21,6 @@ function register_user(e)
       error.style.display = "none"
       alert(data["success"])
       window.location.href = "signin.html"
-
       }
       )
       }
