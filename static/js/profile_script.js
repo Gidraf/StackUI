@@ -28,7 +28,6 @@ function get_user_questions(){
       var questions = data["result"];
       question_asked.innerHTML = questions.length + " questions"
       for (i=0;i<questions.length;i++){
-        id = questions[i]["questions"]["questionid"];
         var question_holder = document.createElement("div")
         var image_holder  = document.createElement("div")
         var username = document.createElement("span")
@@ -54,6 +53,7 @@ function get_user_questions(){
         edit_btn.idValue = questions[i]["questions"]["questionid"]
         edit_btn.titleValue = questions[i]["questions"]["title"]
         edit_btn.descriptionValue = questions[i]["questions"]["description"]
+        question_link.addEventListener("click",storeid)
         question_link.href = "question.html";
         image.src = "static/css/img/avatar.png";
         image_holder.appendChild(image);
@@ -208,4 +208,10 @@ window.onclick= function (event) {
   if(event.target==update_modal){
     update_modal.classList.toggle('question_modal')
   }
+}
+
+function storeid(event) {
+  event.preventDefault();
+  localStorage.setItem('id',event.target.id)
+  window.location.href = "question.html"
 }
