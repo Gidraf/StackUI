@@ -27,8 +27,8 @@ function get_questions() {
           image_holder.className = "user_image";
           answers.className = "question_numbers";
           username.className = "username";
+          question_link.id = questions[i]["questions"]["questionid"];
           question_link.href = "question.html";
-          question_link.questionid = questions[i]["questions"]["questionid"];
           question_link.addEventListener("click",storeid)
           image.src = "static/css/img/avatar.png";
           image_holder.appendChild(image);
@@ -89,5 +89,7 @@ function post_question(e){
 }
 
 function storeid(event) {
-  localStorage.setItem(event.target.questionid,'questionid')
+  event.preventDefault();
+  localStorage.setItem('id',event.target.id)
+  window.location.href = "question.html"
 }
