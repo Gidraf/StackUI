@@ -11,12 +11,14 @@ var error = document.getElementById('error')
 var username = document.getElementById('username')
 var question_answered = document.getElementById('question_answered')
 var question_asked = document.getElementById('question_asked')
+var questions
 username.innerHTML = user['username']
 window.onload = get_user_questions();
 
 // get user questions and populate it to the views
 function get_user_questions(){
-  var url = "http://localhost:5000/api/v1/user/questions/"+user["userid"]
+  console.log(user['userid']);
+  var url = "http://localhost:5000/api/v1/user/questions/" + user["userid"]
   fetch(url,{
   method: "GET",
   headers: {"content-type":"application/json; charset = UTF-8",
@@ -25,7 +27,7 @@ function get_user_questions(){
 ).then(function(response){
   if (response.status === 200){
     response.json().then(function (data){
-      var questions = data["result"];
+      questions = data["result"];
       question_asked.innerHTML = questions.length + " questions"
       for (i=0;i<questions.length;i++){
         var question_holder = document.createElement("div")
@@ -43,6 +45,7 @@ function get_user_questions(){
         clear.className = "clear"
         question_title.className = "question_header";
         question_holder.className = "question_holder";
+        question_holder.id = 'qh' +  questions[i]["questions"]["questionid"]
         image_holder.className = "user_image";
         answers.className = "question_numbers";
         username.className = "username";
@@ -53,12 +56,15 @@ function get_user_questions(){
         edit_btn.idValue = questions[i]["questions"]["questionid"]
         edit_btn.titleValue = questions[i]["questions"]["title"]
         edit_btn.descriptionValue = questions[i]["questions"]["description"]
+        question_link.questionid = questions[i]["questions"]["questionid"]
+          question_title.questionid = questions[i]["questions"]['questionid']
         question_link.addEventListener("click",storeid)
         question_link.href = "question.html";
         image.src = "static/css/img/avatar.png";
         image_holder.appendChild(image);
         time.className = "time";
-        question_title.innerHTML = questions[i]["questions"]["title"];
+        question_title.id = "qt" + questions[i]["questions"]['questionid']
+        question_title.innerHTML =questions[i]["questions"]["title"];
         username.innerHTML = questions[i]["user"];
         answers.innerHTML = questions[i]["answers"] + " answers";
         time.innerHTML = questions[i]["questions"]["time_created"]
@@ -86,6 +92,12 @@ function get_user_questions(){
   else  if (response.status === 404){
     alert("No question found")
   }
+  else if (response.status === 400) {
+    response.json().then(function (data){
+
+    })
+
+  }
 }).then(function (data){
 
 })
@@ -111,9 +123,10 @@ function post_question(e){
   }
 }).then(function (response){
   if (response.status === 201){
-    alert("Question asked")
     while (forum_content.firstChild) {
       forum_content.removeChild(forum_content.firstChild)
+      form.title.value = "";
+      form.description.value = "";
     }
     get_user_questions()
     close_modal()
@@ -138,6 +151,7 @@ function post_question(e){
 // delete question
 function delete_question(event) {
   id = event.target.id
+  var holder = document.getElementById('qh'+id)
   url = "http://localhost:5000/api/v1/delete_question/"+id
   fetch(url,{
     method: "delete",
@@ -146,11 +160,8 @@ function delete_question(event) {
   }
 }).then(function(response){
   if (response.status === 200){
-    alert ("question deleted")
-    while (forum_content.firstChild) {
-      forum_content.removeChild(forum_content.firstChild)
-    }
-    get_user_questions()
+    forum_content.removeChild(holder)
+    question_asked.innerHTML = forum_content.children.length + " Questions"
   }
   else if (response.status == 404) {
     alert("question not found")
@@ -169,6 +180,7 @@ function show_update_modal(event) {
 function update_question(event){
   event.preventDefault();
   error = document.getElementById('update_error')
+  var question = document.getElementById('qt'+ update_form.title.id)
   url = "http://localhost:5000/api/v1/update_question/"+ update_form.title.id
   data = JSON.stringify({"title":update_form.title.value,
   "description":update_form.description.value})
@@ -180,14 +192,8 @@ function update_question(event){
   }
 }).then(function (response) {
   if (response.status === 200){
-    alert ("question updated")
-    response.json().then(function (data){
-      while (forum_content.firstChild) {
-        forum_content.removeChild(forum_content.firstChild)
-      }
-      close_update_modal()
-      get_user_questions()
-    })
+    question.innerHTML = update_form.title.value
+    close_update_modal()
   }
   else if (response.status === 400) {
     response.json().then(function (data){
@@ -212,6 +218,6 @@ window.onclick= function (event) {
 
 function storeid(event) {
   event.preventDefault();
-  localStorage.setItem('id',event.target.id)
+  localStorage.setItem('id',event.target.questionid)
   window.location.href = "question.html"
 }
