@@ -70,8 +70,6 @@ function login_user(e)
        response.json().then( function (data) {
         // var reaponse_data = JSON.parse(data)
          localStorage.setItem("token",data["token"])
-         var info = localStorage.getItem("token");
-         console.log(info);
          error.style.display = "none"
          window.location.href = "index.html"
        }
