@@ -21,6 +21,7 @@ function get_question_details(){
     response.json().then(function(data){
     var title = document.getElementById('question_title')
     var description = document.getElementById('question_description')
+    var question = data['question']
     title.innerHTML = data["question"]['title']
     description.innerHTML = data["question"]['description']
     answers = data["answers"]
@@ -38,6 +39,7 @@ function get_question_details(){
       var answer_text = document.createElement('textarea')
       var edit_btn = document.createElement('a')
       var delete_btn = document.createElement('a')
+      var accept_btn = document.createElement('a')
       var edit_control = document.createElement('div')
       var votes_container = document.createElement('votes')
       var upvote = document.createElement('a')
@@ -69,7 +71,12 @@ function get_question_details(){
       edit_btn.id = answers[i]['answerid']
       edit_btn.innerHTML = 'Edit'
       edit_btn.className = 'edit'
-
+      accept_btn.className = "accept"
+      accept_btn.href ="#"
+      accept_btn.innerHTML = "Accept"
+      accept_btn.style.color = "green"
+      accept_btn.id =answers[i]["answerid"]
+      accept_btn.addEventListener('click',mark_as_prefered)
       votes_container.style.display = 'none'
       if (user["userid"] !== answers[i]['userid']){
         edit_control.style.display = 'none'
@@ -90,6 +97,10 @@ function get_question_details(){
       answer.id ="a" + answers[i]["answerid"]
       clear.className = 'clear';
       upvote.innerHTML = "upvote";
+      upvote.answerid = answers[i]["answerid"]
+      upvote.addEventListener("click",upvote_answer)
+      downvote.answerid = answers[i]["answerid"]
+      downvote.addEventListener("click",downvote_answers)
       downvote.innerHTML = "downvote";
       answer_username.innerHTML = answers[i]['username'];
       votes_labels.innerHTML = answers[i]['votes'] + " votes";
@@ -126,13 +137,20 @@ function get_question_details(){
         }
       })
 
-
       })
+      if (answers[i]['is_answer']){
+        answer_holder.style.background = "#A5D6A7"
+        answer.style.background = "#81C784"
+        accept_btn.style.display = "none"
+      }
+
+      if (question["userid"] != user["userid"]){
+        accept_btn.style.display = "none"
+      }
       edit_btn.addEventListener('click', function (){
         event.preventDefault();
         var current_form = document.getElementById('f'+ event.target.id)
         var current_answer = document.getElementById('a'+event.target.id)
-        console.log(current_form.is_open);
         if(!current_form.is_open){
           current_answer.style.display ='none'
           current_form.style.display = 'block'
@@ -147,6 +165,7 @@ function get_question_details(){
       })
       answers_labels.appendChild(answer_username);
       answers_labels.appendChild(votes_labels);
+      answers_labels.appendChild(accept_btn)
       answers_labels.appendChild(clear);
       answers_labels.appendChild(br);
       answers_labels.appendChild(time);
@@ -182,6 +201,7 @@ function parseJwt (token) {
 
 function post_answer (event){
   event.preventDefault();
+  var id = localStorage.getItem('id')
   answerForm = document.getElementById('answerForm');
   data =JSON.stringify({answer_text:answerForm.answer.value});
   url = "http://localhost:5000/api/v1/answers/"+id;
@@ -197,8 +217,10 @@ function post_answer (event){
   if(response.status === 201){
     response.json().then(function(data){
       answerForm.answer.value =""
+      while (forum_content.firstChild) {
+        forum_content.removeChild(forum_content.firstChild)
+      }
       get_question_details()
-      console.log(data)
     });
   }
   else if (response.status === 400) {
@@ -225,5 +247,67 @@ function delete_answer(event){
   if(response.status === 200){
     forum_content.removeChild(current_answer_holder)
   }
+})
+}
+
+// upvote answer
+
+function upvote_answer(event){
+  event.preventDefault();
+  id = event.target.answerid
+  url = url ="http://localhost:5000/api/v1/upvote/"+id
+  data = JSON.stringify({})
+  fetch(url,{
+    method:"PATCH",
+    body:data,
+    headers:{"content-type":"application/json; charset = UTF-8",
+    "Authorization":"Bearer "+token
+  }
+}).then(function(response){
+  if (response.status === 200)
+  while (forum_content.firstChild) {
+    forum_content.removeChild(forum_content.firstChild)
+  }
+  get_question_details()
+})
+}
+
+function downvote_answers(event){
+  event.preventDefault();
+  id = event.target.answerid
+  url = url ="http://localhost:5000/api/v1/downvote/"+id
+  data = JSON.stringify({})
+  fetch(url,{
+    method:"PATCH",
+    body:data,
+    headers:{"content-type":"application/json; charset = UTF-8",
+    "Authorization":"Bearer " + token
+  }
+}).then(function(response){
+  if (response.status === 200)
+  while (forum_content.firstChild) {
+    forum_content.removeChild(forum_content.firstChild)
+  }
+  get_question_details()
+})
+}
+
+function mark_as_prefered(event){
+  event.preventDefault();
+  id = event.target.id
+  url = url ="http://localhost:5000/api/v1/mark_answer/"+id
+  var data = JSON.stringify({})
+  fetch(url,{
+    method:"PATCH",
+    body:data,
+    headers:{"content-type":"application/json; charset = UTF-8",
+    "Authorization":"Bearer " + token
+  }
+}).then(function(response){
+  if (response.status === 200)
+  while (forum_content.firstChild) {
+    forum_content.removeChild(forum_content.firstChild)
+  }
+  get_question_details()
 })
 }

@@ -21,9 +21,11 @@ function get_questions() {
           var time = document.createElement("span")
           var clear = document.createElement("div")
           clear.className = "clear"
-          question_title.id = questions[i]["questions"]["questionid"];
+          question_title.id ="qt" + questions[i]["questions"]["questionid"];
+          question_title.questionid = questions[i]["questions"]["questionid"]
           question_title.className = "question_header";
           question_holder.className = "question_holder";
+          question_holder.id = "qh"+ questions[i]["questions"]["questionid"];
           image_holder.className = "user_image";
           answers.className = "question_numbers";
           username.className = "username";
@@ -90,6 +92,6 @@ function post_question(e){
 
 function storeid(event) {
   event.preventDefault();
-  localStorage.setItem('id',event.target.id)
+  localStorage.setItem('id',event.target.questionid)
   window.location.href = "question.html"
 }
