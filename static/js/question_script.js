@@ -4,7 +4,7 @@ window.onload = get_questions()
 function get_questions() {
   // fetch all questions from the database
   forum_content = document.getElementById('forum_content')
-  url="http://localhost:5000/api/v1/questions"
+  url="https://stackoverflowgidraf.herokuapp.com/api/v1/questions"
   fetch(url).then(function (response){
     if (response.status === 200){
       response.json().then(function (data){
@@ -80,7 +80,6 @@ function post_question(e){
     response.json().then(function (data){
       error.style.display = "block"
       error.textContent = data["error"]
-      console.log(data);
     })
   }
   else if (response.status === 401) {
