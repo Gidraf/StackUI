@@ -3,7 +3,7 @@
 
 function register_user(e)
 {
-  const register_url = "http://localhost:5000/auth/register"
+  const register_url = "https://stackoverflowgidraf.herokuapp.com/auth/register"
   e.preventDefault();
   const signupform=document.getElementById('signupform')
   if (signupform.password.value == signupform.confirm_password.value){
@@ -56,7 +56,7 @@ function register_user(e)
 
 function login_user(e)
 {
-  const login_url = "http://localhost:5000/auth/login"
+  const login_url = "https://stackoverflowgidraf.herokuapp.com/auth/login"
   e.preventDefault();
   signinForm = document.getElementById('signinForm')
   data = JSON.stringify({"username":signinForm.username.value,

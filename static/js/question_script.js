@@ -63,7 +63,7 @@ function post_question(e){
   e.preventDefault();
   form  = document.getElementById('question_form')
   data = JSON.stringify({title:form.title.value, description:form.description.value})
-  url = "http://localhost:5000/api/v1/add_question"
+  url = "https://stackoverflowgidraf.herokuapp.com/api/v1/add_question"
   fetch(url,{
     method:"POST",
     body :data,

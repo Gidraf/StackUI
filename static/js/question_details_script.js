@@ -9,7 +9,7 @@ window.onload = get_question_details()
 // get question details
 function get_question_details(){
   var id = localStorage.getItem('id')
-  url = "http://localhost:5000/api/v1/answers/"+id
+  url = "https://stackoverflowgidraf.herokuapp.com/api/v1/answers/"+id
   fetch(url,{
     method:"GET",
     headers: {"content-type":"application/json; charset = UTF-8",
@@ -114,7 +114,7 @@ function get_question_details(){
         var current_form = document.getElementById('f'+id)
         var current_answer = document.getElementById('a'+id)
         var current_error = document.getElementById('e'+id)
-        url = "http://localhost:5000/api/v1/update_answer/"+event.target.id
+        url = "https://stackoverflowgidraf.herokuapp.com/api/v1/update_answer/"+event.target.id
         fetch(url,{
           method:"PUT",
           body: JSON.stringify({answer_text:current_form.answer_text.value}),
@@ -204,7 +204,7 @@ function post_answer (event){
   var id = localStorage.getItem('id')
   answerForm = document.getElementById('answerForm');
   data =JSON.stringify({answer_text:answerForm.answer.value});
-  url = "http://localhost:5000/api/v1/answers/"+id;
+  url = "https://stackoverflowgidraf.herokuapp.com/api/v1/answers/"+id;
 
   fetch(url,{
     method:"POST",
@@ -235,7 +235,7 @@ function post_answer (event){
 
 function delete_answer(event){
   event.preventDefault()
-  url ="http://localhost:5000/api/v1/delete_answer/"+event.target.id
+  url ="https://stackoverflowgidraf.herokuapp.com/api/v1/delete_answer/"+event.target.id
   var current_answer_holder = document.getElementById('ah'+ event.target.id)
   fetch(url,{
     method:"DELETE",
@@ -255,7 +255,7 @@ function delete_answer(event){
 function upvote_answer(event){
   event.preventDefault();
   id = event.target.answerid
-  url = url ="http://localhost:5000/api/v1/upvote/"+id
+  url = url ="https://stackoverflowgidraf.herokuapp.com/api/v1/upvote/"+id
   data = JSON.stringify({})
   fetch(url,{
     method:"PATCH",
@@ -275,7 +275,7 @@ function upvote_answer(event){
 function downvote_answers(event){
   event.preventDefault();
   id = event.target.answerid
-  url = url ="http://localhost:5000/api/v1/downvote/"+id
+  url = url ="https://stackoverflowgidraf.herokuapp.com/api/v1/downvote/"+id
   data = JSON.stringify({})
   fetch(url,{
     method:"PATCH",
@@ -295,7 +295,7 @@ function downvote_answers(event){
 function mark_as_prefered(event){
   event.preventDefault();
   id = event.target.id
-  url = url ="http://localhost:5000/api/v1/mark_answer/"+id
+  url = url ="https://stackoverflowgidraf.herokuapp.com/api/v1/mark_answer/"+id
   var data = JSON.stringify({})
   fetch(url,{
     method:"PATCH",

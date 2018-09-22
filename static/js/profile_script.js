@@ -18,7 +18,7 @@ window.onload = get_user_questions();
 // get user questions and populate it to the views
 function get_user_questions(){
   console.log(user['userid']);
-  var url = "http://localhost:5000/api/v1/user/questions/" + user["userid"]
+  var url = "https://stackoverflowgidraf.herokuapp.com/api/v1/user/questions/" + user["userid"]
   fetch(url,{
   method: "GET",
   headers: {"content-type":"application/json; charset = UTF-8",
@@ -114,7 +114,7 @@ function post_question(e){
   e.preventDefault();
   data = JSON.stringify({title:form.title.value,
     description:form.description.value})
-  url = "http://localhost:5000/api/v1/add_question"
+  url = "https://stackoverflowgidraf.herokuapp.com/api/v1/add_question"
   fetch(url,{
     method:"POST",
     body :data,
@@ -152,7 +152,7 @@ function post_question(e){
 function delete_question(event) {
   id = event.target.id
   var holder = document.getElementById('qh'+id)
-  url = "http://localhost:5000/api/v1/delete_question/"+id
+  url = "https://stackoverflowgidraf.herokuapp.com/api/v1/delete_question/"+id
   fetch(url,{
     method: "delete",
     headers:{"content-type":"application/json; charset = UTF-8",
@@ -181,7 +181,7 @@ function update_question(event){
   event.preventDefault();
   error = document.getElementById('update_error')
   var question = document.getElementById('qt'+ update_form.title.id)
-  url = "http://localhost:5000/api/v1/update_question/"+ update_form.title.id
+  url = "https://stackoverflowgidraf.herokuapp.com/api/v1/update_question/"+ update_form.title.id
   data = JSON.stringify({"title":update_form.title.value,
   "description":update_form.description.value})
   fetch(url,{
