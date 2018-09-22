@@ -217,6 +217,8 @@ function post_answer (event){
   if(response.status === 201){
     response.json().then(function(data){
       answerForm.answer.value =""
+      error = document.getElementById('error');
+      error.innerHTML = ""
       while (forum_content.firstChild) {
         forum_content.removeChild(forum_content.firstChild)
       }
