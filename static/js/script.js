@@ -2,6 +2,18 @@
 //this module is intented to run web js script
 //init ask_question modal
 var question_modal =document.getElementById('question_modal')
+var signup = document.getElementById('signup')
+var token = localStorage.getItem('token')
+
+if (token){
+  signup.innerHTML = "Signout"
+  signup.href = "signout.html"
+
+}
+else {
+  signup.innerHTML = "Signin"
+  signup.href = "signin.html"
+}
 // init downvote button
 var downvote_btn = document.getElementById("votes");
 var isopen=false;
