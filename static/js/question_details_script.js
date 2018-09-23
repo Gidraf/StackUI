@@ -1,6 +1,8 @@
 // show all the question inforamtion
 
 var token = localStorage.getItem('token');
+
+if (token){
 var user  = parseJwt(token)["identity"];
 var question_title
 // populate
@@ -312,4 +314,8 @@ function mark_as_prefered(event){
   }
   get_question_details()
 })
+}
+}
+else {
+  window.location.href ='signin.html'
 }
