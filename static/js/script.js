@@ -32,10 +32,7 @@ function open_model () {
   question_modal.classList.toggle('question_modal')
 }
 
-
-
 //closes the question_modal on cancel clicked
-
 function close_modal(){
   question_modal.classList.toggle('question_modal')
 };

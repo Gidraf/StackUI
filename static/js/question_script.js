@@ -1,5 +1,6 @@
 // load questions
 window.onload = get_questions()
+var loader = document.getElementById('loader')
 
 function get_questions() {
   // fetch all questions from the database
@@ -7,6 +8,7 @@ function get_questions() {
   url="https://stackoverflowgidraf.herokuapp.com/api/v1/questions"
   fetch(url).then(function (response){
     if (response.status === 200){
+      loader.style.display = "none"
       response.json().then(function (data){
         var questions = data["result"]
         for (i=0;i<questions.length;i++){

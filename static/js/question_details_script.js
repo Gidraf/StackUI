@@ -5,6 +5,7 @@ var token = localStorage.getItem('token');
 if (token){
 var user  = parseJwt(token)["identity"];
 var question_title
+var loader = document.getElementById('loader')
 // populate
 window.onload = get_question_details()
 
@@ -20,15 +21,21 @@ function get_question_details(){
   }
 ).then(function (response){
   if (response.status === 200){
+    loader.style.display = "none"
     response.json().then(function(data){
     var title = document.getElementById('question_title')
     var description = document.getElementById('question_description')
     var question = data['question']
     title.innerHTML = data["question"]['title']
     description.innerHTML = data["question"]['description']
-    answers = data["answers"]
+    answers_list = data["answers"]
+    answers = answers_list.sort(function (a, b){
+      return (b-a)
+    })
     forum_content = document.getElementById('forum_content')
     for (i=0;i<answers.length;i++){
+      var loader = document.createElement("div")
+      var loading_image = document.createElement('img')
       var answer_holder = document.createElement('div')
       var answers_labels = document.createElement('div')
       var answer_username = document.createElement('span')
@@ -48,6 +55,11 @@ function get_question_details(){
       var downvote = document.createElement('a')
       var answer = document.createElement('p')
       var br = document.createElement('br')
+      loader.id= "l" + answers[i]['answerid']
+      loading_image.src = "static/css/img/loading.png"
+      loading_image.className = "loading user_image"
+      loading_image.id = "li"+answers[i]["answerid"]
+      loading_image.style.display = "none"
       form.method = "post"
       form.id = "f"+answers[i]['answerid']
       form.is_open = false
@@ -113,6 +125,8 @@ function get_question_details(){
       update.addEventListener("click",function(event){
         event.preventDefault();
         id = event.target.id
+        var lc = document.getElementById("li"+id)
+        lc.style.display = "block"
         var current_form = document.getElementById('f'+id)
         var current_answer = document.getElementById('a'+id)
         var current_error = document.getElementById('e'+id)
@@ -125,6 +139,7 @@ function get_question_details(){
         }
       }).then(function (response){
         if (response.status === 200){
+          lc.style.display = "none"
           current_answer.innerHTML = current_form.answer_text.value
           if(current_form.is_open){
             current_form.style.display = 'none'
@@ -132,6 +147,7 @@ function get_question_details(){
           }
         }
         else if (response.status === 400) {
+          lc.style.display = "none"
           response.json().then(function (data){
             current_error.style.color = 'red'
             current_error.innerHTML = data["error"]
@@ -168,6 +184,7 @@ function get_question_details(){
       answers_labels.appendChild(answer_username);
       answers_labels.appendChild(votes_labels);
       answers_labels.appendChild(accept_btn)
+      answers_labels.appendChild(loading_image)
       answers_labels.appendChild(clear);
       answers_labels.appendChild(br);
       answers_labels.appendChild(time);
@@ -205,6 +222,7 @@ function post_answer (event){
   event.preventDefault();
   var id = localStorage.getItem('id')
   answerForm = document.getElementById('answerForm');
+  loader.style.display = "block"
   data =JSON.stringify({answer_text:answerForm.answer.value});
   url = "https://stackoverflowgidraf.herokuapp.com/api/v1/answers/"+id;
 
@@ -225,6 +243,7 @@ function post_answer (event){
         forum_content.removeChild(forum_content.firstChild)
       }
       get_question_details()
+      loader.style.display = "none"
     });
   }
   else if (response.status === 400) {
@@ -232,6 +251,7 @@ function post_answer (event){
       error = document.getElementById('error');
       error.style.display = 'block';
       error.innerHTML = data["error"];
+      loader.style.display = "none"
     });
   }
 });
@@ -259,6 +279,7 @@ function delete_answer(event){
 function upvote_answer(event){
   event.preventDefault();
   id = event.target.answerid
+  loader.style.display = "block"
   url = url ="https://stackoverflowgidraf.herokuapp.com/api/v1/upvote/"+id
   data = JSON.stringify({})
   fetch(url,{
@@ -273,6 +294,7 @@ function upvote_answer(event){
     forum_content.removeChild(forum_content.firstChild)
   }
   get_question_details()
+  loader.style.display = "none"
 })
 }
 
@@ -298,6 +320,7 @@ function downvote_answers(event){
 
 function mark_as_prefered(event){
   event.preventDefault();
+  loader.style.display= "block"
   id = event.target.id
   url = url ="https://stackoverflowgidraf.herokuapp.com/api/v1/mark_answer/"+id
   var data = JSON.stringify({})
@@ -313,6 +336,7 @@ function mark_as_prefered(event){
     forum_content.removeChild(forum_content.firstChild)
   }
   get_question_details()
+  loader.style.display = "none"
 })
 }
 }

@@ -12,12 +12,12 @@ var username = document.getElementById('username')
 var question_answered = document.getElementById('question_answered')
 var question_asked = document.getElementById('question_asked')
 var questions
+var loader = document.getElementById('loader')
 username.innerHTML = user['username']
 window.onload = get_user_questions();
 
 // get user questions and populate it to the views
 function get_user_questions(){
-  console.log(user['userid']);
   var url = "https://stackoverflowgidraf.herokuapp.com/api/v1/user/questions/" + user["userid"]
   fetch(url,{
   method: "GET",
@@ -26,6 +26,7 @@ function get_user_questions(){
 }}
 ).then(function(response){
   if (response.status === 200){
+    loader.style.display = "none"
     response.json().then(function (data){
       questions = data["result"];
       question_asked.innerHTML = questions.length + " questions"
