@@ -7,7 +7,7 @@ var token = localStorage.getItem('token')
 
 if (token){
   signup.innerHTML = "Signout"
-  signup.href = "signout.html"
+  signup.href = "signin.html"
 
 }
 else {
