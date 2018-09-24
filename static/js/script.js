@@ -4,21 +4,23 @@
 var question_modal =document.getElementById('question_modal')
 var signup = document.getElementById('signup')
 var token = localStorage.getItem('token')
+var ask_question=document.getElementById('ask_question');
 
 if (token){
   signup.innerHTML = "Signout"
   signup.href = "signin.html"
+  signup.addEventListener("click",logout)
 
 }
 else {
   signup.innerHTML = "Signin"
   signup.href = "signin.html"
+  ask_question.style.display = "none"
 }
 // init downvote button
 var downvote_btn = document.getElementById("votes");
 var isopen=false;
 // init ask questio button
-var ask_question=document.getElementById('ask_question');
 
 var token = localStorage.getItem("token")
 // init answers votes
@@ -42,4 +44,10 @@ window.onclick= function (event) {
   if(event.target==question_modal){
     question_modal.classList.toggle('question_modal')
   }
+}
+
+function logout(event){
+  event.preventDefault();
+  localStorage.removeItem('token')
+  window.location.href = "signin.html"
 }

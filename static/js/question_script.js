@@ -55,17 +55,20 @@ function get_questions() {
     }
     else {
       alert ("no question found at the moment")
+      loader.style.display = "none"
     }
 })
 }
 
 function post_question(e){
-  var token = localStorage.getItem("token")
-  const error = document.getElementById('error')
+  var token = localStorage.getItem("token");
+  const error = document.getElementById('error');
+  loader.style.zIndex = "2"
+  loader.style.display = "block";
   e.preventDefault();
-  form  = document.getElementById('question_form')
-  data = JSON.stringify({title:form.title.value, description:form.description.value})
-  url = "https://stackoverflowgidraf.herokuapp.com/api/v1/add_question"
+  form  = document.getElementById('question_form');
+  data = JSON.stringify({title:form.title.value, description:form.description.value});
+  url = "https://stackoverflowgidraf.herokuapp.com/api/v1/add_question";
   fetch(url,{
     method:"POST",
     body :data,
@@ -74,18 +77,20 @@ function post_question(e){
   }
 }).then(function (response){
   if (response.status === 201){
-    alert("Question asked")
+    form.title.value = ""
+    form.description.value = ""
+    loader.style.display = "none"
     get_questions()
     close_modal()
   }
   else if (response.status ===  400)  {
+    loader.style.display = "none"
     response.json().then(function (data){
       error.style.display = "block"
       error.textContent = data["error"]
     })
   }
   else if (response.status === 401) {
-    alert ("please login first")
     window.location.href = "signin.html"
   }
 })
