@@ -206,6 +206,7 @@ function get_question_details(){
   else if (response.status === 404 || response.status === 400) {
     response.json().then(function (data){
       alert(data["error"]);
+      loader.style.display = "none"
     });
   }
 });

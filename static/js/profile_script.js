@@ -91,6 +91,7 @@ function get_user_questions(){
     window.location.href = "signin.html"
   }
   else  if (response.status === 404){
+    loader.style.display = "none"
     alert("No question found")
   }
   else if (response.status === 400) {
