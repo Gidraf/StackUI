@@ -6,6 +6,14 @@ if (token){
 var user  = parseJwt(token)["identity"];
 var question_title
 var loader = document.getElementById('loader')
+var delete_modal = document.getElementById('delete_modal')
+var delet_cancel_btn =  document.getElementById('delet_cancel_btn')
+var loading_image = document.getElementById('loading_image')
+var delete_title = document.getElementById('delete_title')
+delet_cancel_btn.addEventListener("click",close_delete_modal)
+delete_modal.style.display = "none"
+loading_image.style.display = "none"
+
 // populate
 window.onload = get_question_details()
 
@@ -80,7 +88,7 @@ function get_question_details(){
       delete_btn.innerHTML = 'Delete'
       delete_btn.href = '#'
       delete_btn.id = answers[i]["answerid"]
-      delete_btn.addEventListener('click',delete_answer)
+      delete_btn.addEventListener('click',open_delete_modal)
       edit_btn.href = '#'
       edit_btn.id = answers[i]['answerid']
       edit_btn.innerHTML = 'Edit'
@@ -257,11 +265,25 @@ function post_answer (event){
   }
 });
 }
+function open_delete_modal (event){
+  event.preventDefault();
+  var delete_btn = document.getElementById('delete_btn')
+
+  delete_btn.answerid = event.target.id
+  delete_modal.style.display = "block"
+  delete_btn.addEventListener("click",delete_answer)
+}
+
+function close_delete_modal(){
+  delete_title.textContent = "Are sure you want to delete!!"
+  delete_modal.style.display = "none"
+
+}
 
 function delete_answer(event){
-  event.preventDefault()
-  url ="https://stackoverflowgidraf.herokuapp.com/api/v1/delete_answer/"+event.target.id
-  var current_answer_holder = document.getElementById('ah'+ event.target.id)
+  loading_image.style.display = "inline"
+  url ="https://stackoverflowgidraf.herokuapp.com/api/v1/delete_answer/"+event.target.answerid
+  var current_answer_holder = document.getElementById('ah'+ event.target.answerid)
   fetch(url,{
     method:"DELETE",
     headers:{"content-type":"application/json; charset = UTF-8",
@@ -270,6 +292,9 @@ function delete_answer(event){
   }
 ).then(function(response){
   if(response.status === 200){
+    loading_image.style.display = "none"
+    delete_title.textContent = "Deleted!!"
+    window.setTimeout(close_delete_modal,1500)
     forum_content.removeChild(current_answer_holder)
   }
 })

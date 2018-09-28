@@ -32,7 +32,7 @@ legend
 /**styling up the labels**/
 label
 {
-  font-size: 1.2vw;
+  font-size: 1.1vw;
   font-style: normal;
   font-weight: bold;
   color: ghostwhite;
@@ -52,6 +52,21 @@ button
   opacity: 0.8;
 }
 
+button:hover {
+  -webkit-animation: beat 1.5s infinite alternate;
+  -moz-animation: beat 1.5s infinite alternate;
+  -ms-animation: beat 1.5s infinite alternate;
+  -o-animation: beat 1.5s infinite alternate;
+  animation: beat 1.5s infinite alternate;
+}
+
+span:hover {
+  -webkit-animation: beat 1.5s infinite alternate;
+  -moz-animation: beat 1.5s infinite alternate;
+  -ms-animation: beat 1.5s infinite alternate;
+  -o-animation: beat 1.5s infinite alternate;
+  animation: beat 1.5s infinite alternate;
+}
 /* Full-width inputs */
 input[type=text],
 input[type=password],
@@ -66,7 +81,7 @@ textarea
     border: 1px solid #ccc;
     box-sizing: border-box;
     opacity: 0.8;
-    font-size: 1.2vw;
+    font-size: 1.1vw;
     font-weight: bold;
     color: blue;
     font-weight: bold;
@@ -186,7 +201,7 @@ a
 
 .right_bar span
 {
-  font-size: 1.2vw;
+  font-size: 1.1vw;
   width: 20%;
   text-align: center;
   margin-right: 50px;
@@ -261,7 +276,7 @@ a
   float: left;
   color: ghostwhite;
   margin-bottom: 20px;
-  font-size: 1.4vw;
+  font-size: 1.1vw;
   background: none;
   margin-left: 25%;
   margin-top: 9%;
@@ -316,7 +331,7 @@ a
 
 .side_navbar span
 {
-  font-size: 1.2vw;
+  font-size: 1.1vw;
   color: ghostwhite
 }
 
@@ -353,7 +368,7 @@ a
   box-shadow: 2px 2px 2px ghostwhite;
   border-radius: 10px;
   padding: 2%;
-  font-size: 1.2vw;
+  font-size: 1.1vw;
 }
 
 /**answer_labels**/
@@ -368,7 +383,7 @@ a
   box-shadow: 2px 2px 2px ghostwhite;
   border-radius: 10px;
   padding: 1%;
-  font-size: 1.2vw;
+  font-size: 1.1vw;
 }
 
 .answer_holder img
@@ -392,8 +407,10 @@ a
 
 .votes
 {
+  width: auto;
   float:right;
-  margin-right: 1%;
+  margin-right: 5%;
+  font-size: 0.8vw;
   padding-left: 1%;
 }
 
@@ -407,10 +424,18 @@ a
 
 .votes a
 {
+  box-shadow: 5px 5px 5px #888888;
+  border-radius: 10px;
   margin-right: 5%;
+  width: 20%;
+  padding: 10%;
   margin-left: 1%;
+  opacity: .3;
+  margin-bottom: 5%;
 }
-
+h4 {
+  font-size: 2vw;
+}
 .votes_labels{
   margin-left: 0.5%;
 }
@@ -436,6 +461,125 @@ a
   padding-left: 1%;
   padding-right: 1%;
 }
+
+.delete_modal {
+  width: 100%;
+  padding-top: 20%;
+  padding-right: 10%;
+  height: 40%;
+  position: fixed;
+  text-align:  center;
+  display: block;
+ position: fixed;
+ z-index: 1; /* Sit on top */
+ left: 0;
+ top: 0;
+ animation: fadein 0.25s; /* Full width */
+ height: 100%; /* Full height */
+ overflow: auto; /* Enable scroll if needed */
+ background-color: rgb(); /* Fallback color */
+ background-color: rgba();
+}
+
+.loading_image {
+  width: 20%;
+  text-align: center;
+}
+
+.close_delete_modal{
+  animation: scaleout 1s;
+}
+
+.delete_modal button{
+  width: 30%;
+  margin-left: 10%;
+  margin-top: 0.5%;
+  opacity: 0.8;
+}
+.delete_modal fieldset{
+  width: 20%;
+  margin-left: 40%;
+  border-radius: 10px;
+  font-size: 3vw;
+  background-color: ;
+  color: white;
+  background-color: #5C6BC0;
+  animation: scale 1s;
+}
+
+@-webkit-keyframes scale /* Safari and Chrome */ {
+  from {
+    width: 0%;
+    border-radius: 1px;
+  }
+  to {
+    width: 20%;
+    border-radius: 10px;
+  }
+}
+
+@keyframes scale /* Safari and Chrome */ {
+  from {
+    width: 5%;
+    border-radius: 5px;
+  }
+  to {
+    width: 20%;
+    border-radius: 10px;
+  }
+}
+
+@-moz-keyframes scale /* Safari and Chrome */ {
+  from {
+    width: 0%;
+    border-radius: 1px;
+  }
+  to {
+    width: 20%;
+    border-radius: 10px;
+  }
+}
+
+@-webkit-keyframes scaleout /* Safari and Chrome */ {
+  from {
+    width: 20%;
+    border-radius: 1px;
+  }
+  to {
+    width: 0%;
+    border-radius: 10px;
+  }
+}
+
+@keyframes scaleout /* Safari and Chrome */ {
+  from {
+    width: 20%;
+    border-radius: 5px;
+  }
+  to {
+    width: 0%;
+    border-radius: 10px;
+  }
+}
+
+@-moz-keyframes scaleout /* Safari and Chrome */ {
+  from {
+    width: 20%;
+    border-radius: 1px;
+  }
+  to {
+    width: 0%;
+    border-radius: 10px;
+  }
+}
+
+#delete_btn {
+  background-color: red;
+}
+
+#delet_cancel_btn{
+  background-color:
+}
 /***styling commnet***/
 .answer
 {
@@ -443,7 +587,7 @@ a
   padding: 1%;
   overflow-wrap: break-word;
   display: inline-block;
-  font-size: 1.2vw;
+  font-size: 1.1vw;
   margin-bottom: 1%;
   margin-right: 1%;
   border-radius: 10px;
@@ -537,7 +681,7 @@ h4{
   float: left;
   color: black;
   margin-left: 1%;
-  font-size: 1.2vw;
+  font-size: 1.1vw;
   opacity:0.8;
 }
 
@@ -631,6 +775,25 @@ h4{
   opacity: 0.3;
 }
 
+.del
+{
+  width: 10%;
+  background: red;
+  font-size: 0.8vw;
+}
+
+.edit_control{
+  width: 40%;
+}
+
+.ed
+{
+  width: 10%;
+  background: blue;
+  font-size: 0.8vw;
+  margin-right: 0;
+
+}
 .edit{
   width: 5%;
   padding: 0.5%;
@@ -654,7 +817,7 @@ h4{
   display: block;
   margin-left: 22%;
   margin-bottom: 1%;
-  font-size: 1.2vw;
+  font-size: 1.1vw;
   opacity: 0.8;
   color: ghostwhite;
 }
@@ -665,7 +828,7 @@ h4{
 
 .users span{
   display: block;
-  font-size: 1.2vw;
+  font-size: 1.1vw;
   margin-bottom: 1%;
   color: ghostwhite;
   margin-left: 22%;
@@ -696,7 +859,7 @@ h4{
    background: none;
    color: white;
    opacity: 0.8;
-   font-size: 1.2vw;
+   font-size: 1.1vw;
    box-shadow: 1px 1px 1px grey;
    width: 100%;
    padding: 5%;
@@ -745,7 +908,7 @@ h4{
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
-    animation: fadein 1s;
+    animation: fadein 0.25s;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
@@ -754,38 +917,38 @@ h4{
  }
 /**format textarea***/
  textarea{
-   font-size: 1.2v
+   font-size: 1.1v
  }
 
  .question_modal form{
    width: 40%;
-   font-size: 1.2vw;
+   font-size: 1.1vw;
    border-radius: 10px;
    margin-left: 25%;
    margin-top: 10%;
  }
  .question_modal fieldset{
    border-radius: 10px;
-   font-size: 1.2vh;
+   font-size: 1.1vh;
  }
  #ask{
    width: 30%;
    float: right;
-   font-size: 1.2vw;
+   font-size: 1.1vw;
  }
 
  .ask
  {
    width: 30%;
    float: right;
-   font-size: 1.2vw;
+   font-size: 1.1vw;
  }
 
  #cancel{
    width: 30%;
    float: left;
    background-color: red;
-   font-size: 1.2vw;
+   font-size: 1.1vw;
  }
  .show{
    display: block;
@@ -795,7 +958,7 @@ h4{
   width: 50%;
   margin-top: 15%;
   margin-left: 25%;
-  font-size: 1.2vw;
+  font-size: 1.1vw;
 }
 
 .home_content p{
@@ -811,8 +974,8 @@ h4{
   }
   50% {
     opacity: 1;
-    -webkit-transform: scale(1.2, 1.2);
-            transform: scale(1.2, 1.2);
+    -webkit-transform: scale(1.1, 1.1);
+            transform: scale(1.1, 1.1);
   }
   100% {
     opacity: .4;
@@ -828,8 +991,8 @@ h4{
   }
   50% {
     opacity: 1;
-    -webkit-transform: scale(1.2, 1.2);
-            transform: scale(1.2, 1.2);
+    -webkit-transform: scale(1.1, 1.1);
+            transform: scale(1.1, 1.1);
   }
   100% {
     opacity: .4;
@@ -857,11 +1020,74 @@ h4{
           animation-delay: .5s;
 }
 .loading-dots--dot:nth-child(3) {
-  -webkit-animation-delay: 1s;
-          animation-delay: 1s;
+  -webkit-animation-delay: 0.25s;
+          animation-delay: 0.25s;
 }
 
 .home_content button{
   width: 40%;
   float: right;
+}
+
+
+
+#delete_btn:hover, #delet_cancel_btn:hover, .delete:hover
+, .edit:hover {
+	/*font-size: 150px;
+	color: #e00;*/
+	-webkit-animation: beat 1.5s infinite alternate;
+	-moz-animation: beat 1.5s infinite alternate;
+	-ms-animation: beat 1.5s infinite alternate;
+	-o-animation: beat 1.5s infinite alternate;
+	animation: beat 1.5s infinite alternate;
+
+	-webkit-transform-origin: center;
+	-moz-transform-origin: center;
+	-o-transform-origin: center;
+	-ms-transform-origin: center;
+	transform-origin: center;
+}
+
+
+@keyframes "beat" {
+ to {
+    -webkit-transform: scale(1.1);
+   	-moz-transform: scale(1.1);
+   	-o-transform: scale(1.1);
+   	-ms-transform: scale(1.1);
+   	transform: scale(1.1);
+ }
+
+}
+
+@-moz-keyframes beat {
+ to {
+   -moz-transform: scale(1.1);
+   transform: scale(1.1);
+ }
+
+}
+
+@-webkit-keyframes "beat" {
+ to {
+   -webkit-transform: scale(1.1);
+   transform: scale(1.1);
+ }
+
+}
+
+@-ms-keyframes "beat" {
+ to {
+   -ms-transform: scale(1.1);
+   transform: scale(1.1);
+ }
+
+}
+
+@-o-keyframes "beat" {
+ to {
+   -o-transform: scale(1.1);
+   transform: scale(1.1);
+ }
+
 }

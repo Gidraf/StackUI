@@ -11,6 +11,13 @@ var error = document.getElementById('error')
 var username = document.getElementById('username')
 var question_answered = document.getElementById('question_answered')
 var question_asked = document.getElementById('question_asked')
+var delete_modal = document.getElementById('delete_modal')
+var delet_cancel_btn =  document.getElementById('delet_cancel_btn')
+var loading_image = document.getElementById('loading_image')
+var delete_title = document.getElementById('delete_title')
+delet_cancel_btn.addEventListener("click",close_delete_modal)
+delete_modal.style.display = "none"
+loading_image.style.display = "none"
 var questions
 var loader = document.getElementById('loader')
 username.innerHTML = user['username']
@@ -18,6 +25,7 @@ window.onload = get_user_questions();
 
 // get user questions and populate it to the views
 function get_user_questions(){
+  loader.style.display = "block"
   var url = "https://stackoverflowgidraf.herokuapp.com/api/v1/user/questions/" + user["userid"]
   fetch(url,{
   method: "GET",
@@ -52,7 +60,7 @@ function get_user_questions(){
         username.className = "username";
         delete_btn.className = "delete"
         delete_btn.id = questions[i]["questions"]["questionid"]
-        delete_btn.addEventListener('click',delete_question)
+        delete_btn.addEventListener('click',open_delete_modal)
         edit_btn.className = "edit"
         edit_btn.idValue = questions[i]["questions"]["questionid"]
         edit_btn.titleValue = questions[i]["questions"]["title"]
@@ -114,6 +122,8 @@ function parseJwt (token) {
 function post_question(e){
   var token = localStorage.getItem("token")
   e.preventDefault();
+  loader.style.zIndex = "2"
+  loader.style.display = "block"
   data = JSON.stringify({title:form.title.value,
     description:form.description.value})
   url = "https://stackoverflowgidraf.herokuapp.com/api/v1/add_question"
@@ -127,16 +137,18 @@ function post_question(e){
   if (response.status === 201){
     while (forum_content.firstChild) {
       forum_content.removeChild(forum_content.firstChild)
-      form.title.value = "";
-      form.description.value = "";
     }
+    form.title.value = "";
+    form.description.value = "";
     get_user_questions()
     close_modal()
+    loader.style.display = "none"
   }
   else if (response.status ===  400)  {
     response.json().then(function (data){
       error.style.display = "block"
       error.textContent = data["error"]
+      loader.style.display = "none"
     })
   }
   else if (response.status === 404) {
@@ -152,7 +164,8 @@ function post_question(e){
 
 // delete question
 function delete_question(event) {
-  id = event.target.id
+  id = event.target.questionid
+  loading_image.style.display = "inline"
   var holder = document.getElementById('qh'+id)
   url = "https://stackoverflowgidraf.herokuapp.com/api/v1/delete_question/"+id
   fetch(url,{
@@ -162,11 +175,13 @@ function delete_question(event) {
   }
 }).then(function(response){
   if (response.status === 200){
+    loading_image.style.display = "none"
+    delete_title.textContent = "Deleted!!"
+    window.setTimeout(close_delete_modal,1500)
     forum_content.removeChild(holder)
     question_asked.innerHTML = forum_content.children.length + " Questions"
   }
   else if (response.status == 404) {
-    alert("question not found")
     get_user_questions()
   }
 })
@@ -181,7 +196,7 @@ function show_update_modal(event) {
 
 function update_question(event){
   event.preventDefault();
-  error = document.getElementById('update_error')
+  var update_error = document.getElementById('update_error')
   var question = document.getElementById('qt'+ update_form.title.id)
   url = "https://stackoverflowgidraf.herokuapp.com/api/v1/update_question/"+ update_form.title.id
   data = JSON.stringify({"title":update_form.title.value,
@@ -199,9 +214,9 @@ function update_question(event){
   }
   else if (response.status === 400) {
     response.json().then(function (data){
-      error.style.display = "block";
-      error.style.color = 'red'
-      error.textContent = data["error"]
+      update_error.style.display = "block";
+      update_error.style.color = 'red'
+      update_error.textContent = data["error"]
 
     })
   }
@@ -222,4 +237,17 @@ function storeid(event) {
   event.preventDefault();
   localStorage.setItem('id',event.target.questionid)
   window.location.href = "question.html"
+}
+
+function open_delete_modal (event){
+  event.preventDefault();
+  var delete_btn = document.getElementById('delete_btn')
+  delete_btn.questionid = event.target.id
+  delete_modal.style.display = "block"
+  delete_btn.addEventListener("click",delete_question)
+}
+
+function close_delete_modal(){
+  delete_title.textContent = "Are sure you want to delete!!"
+  delete_modal.style.display = "none"
 }

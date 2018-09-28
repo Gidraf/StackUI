@@ -23,11 +23,14 @@ function register_user(e)
       headers :{"content-type":"application/json; charset = UTF-8"}
     }).then(function (response){
       if (response.status === 201) {
-        loader.style.display = "none"
+      loader.style.display = "none";
       response.json().then( function (data) {
-      error.style.display = "none"
-      alert(data["success"])
-      window.location.href = "signin.html"
+      error.style.color = "green";
+      error.style.display = "block";
+      error.style.zIndex = "2"
+      error.style.fontSize = "4vw"
+      error.innerHTML = data["success"]
+      window.setTimeout(openSignInPage, 3000)
       }
       )
       }
@@ -58,6 +61,7 @@ function register_user(e)
   }
   else {
     e.preventDefault();
+    loader.style.display = "none"
     error.style.display="block";
     error.innerHTML = "password does not match"
   }
@@ -110,4 +114,8 @@ function login_user(e)
      }).then( function (data){
 
      })
+}
+
+function openSignInPage(){
+  window.location.href = "signin.html"
 }

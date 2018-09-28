@@ -33,6 +33,7 @@
       <form id="signupform" method="post" onsubmit="register_user(event)" class="signup_form">
         <fieldset>
           <legend>Signup</legend>
+          <h4 id="error" class="hide"></h4>
           <label for="username">Username</label>
           <br>
           <input type="text" name="username" min="6" max="60" required placeholder="Username">
@@ -51,7 +52,6 @@
           <br>
         </fieldset>
         <br>
-        <span id="error" class="hide">error please check</span>
         <button type="submit" name="signup">Signup</button>
         <br>
         <span id="account_question"> Already have an account? <a href="signin.html">Signin here</a></span>

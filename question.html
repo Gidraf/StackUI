@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Stackoverflow-Lite|Question_details</title>
+    <title>Stackoverflow-Lite|Question details</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
 
@@ -50,15 +50,19 @@
       <img onclick="get_question_details()" src="static/css/img/refresh_btn.png" alt="">
       </a>
 
-<!--
-      <a href="#">
-        <span>My questions</span>
-      </a>
-      <a href="#">
-        <span>My Answers</span>
-      </a>
-        -->
     </div>
+
+    <div class = "delete_modal" id = "delete_modal">
+      <fieldset>
+        <img src="static/css/img/loading.png" id="loading_image" class="loading loading_image" alt="">
+        <br>
+        <span id="delete_title">Are sure you want to delete!!</span>
+        <br>
+        <button id="delete_btn" type="button" name="delete">Delete</button>
+        <button id="delet_cancel_btn" type="button" name="cancel">Cancel</button>
+      </fieldset>
+    </div>
+
     <h2 id="question_title"></h2>
     <div class="forum_content">
 
@@ -72,11 +76,14 @@
     </div>
     <!---answer form-->
     <div class="answer_form">
-      <h3>Your answer</h3>
+
       <form class="" id="answerForm" onsubmit="post_answer(event)" action="index.html" method="post">
-        <textarea name="answer" rows="10" placeholder="your answer here" cols="80"></textarea>
-        <br>
-        <span id="error"></span>
+        <fieldset>
+          <legend><h3>Your answer</h3></legend>
+          <h4 id="error"></h4>
+          <textarea name="answer" rows="10" placeholder="your answer here" cols="80"></textarea>
+          <br>
+        </fieldset>
         <button type="button" onclick="post_answer(event)" name="answer_btn">Post Answer</button>
       </form>
     </div>
