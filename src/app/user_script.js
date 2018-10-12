@@ -8,7 +8,7 @@
 
 function register_user(e)
 {
-  const register_url = "https://stackoverflowgidraf.herokuapp.com/auth/register"
+  const register_url = " https://stackoverflowgidraf.herokuapp.com/auth/register"
   e.preventDefault();
   loader.style.display = "block"
   const signupform=document.getElementById('signupform')
@@ -40,7 +40,6 @@ function register_user(e)
           function (data){
             error.style.display="block"
             error.innerHTML = data["warning"]
-            console.log(data["warning"]);
           }
         )
       }
@@ -50,7 +49,6 @@ function register_user(e)
           function (data){
             error.style.display="block"
             error.innerHTML = data["error"]
-            console.log(data["warning"]);
           }
         )
       }
@@ -69,7 +67,7 @@ function register_user(e)
 
 function login_user(e)
 {
-  const login_url = "https://stackoverflowgidraf.herokuapp.com/auth/login"
+  const login_url = " https://stackoverflowgidraf.herokuapp.com/auth/login"
   e.preventDefault();
   loader.style.display = "block"
   signinForm = document.getElementById('signinForm')
@@ -83,8 +81,6 @@ function login_user(e)
        loader.style.display = "none"
        if (response.status === 200) {
        response.json().then( function (data) {
-        // var reaponse_data = JSON.parse(data)
-
          localStorage.setItem("token",data["token"])
          error.style.display = "none"
          window.location.href = "index.html"

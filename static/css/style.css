@@ -440,6 +440,10 @@ h4 {
   margin-left: 0.5%;
 }
 
+.comment_title{
+  font-size: 0.8vw;
+}
+
 /**styling answers textarea**/
 
 .answer_form h3{
@@ -772,35 +776,44 @@ h4{
   font-size: 0.8vw;
   background-color: red;
   margin-left: .2%;
-  opacity: 0.3;
+  opacity: 0.5;
+  color: ghostwhite;
 }
 
-.del
-{
-  width: 10%;
-  background: red;
+.answer_delete{
+  width: 5%;
+  padding: 0.5%;
   font-size: 0.8vw;
+  background-color: red;
+  margin-left: .2%;
+  opacity: 1;
+  color: ghostwhite;
 }
+
+
 
 .edit_control{
   width: 40%;
 }
 
-.ed
-{
-  width: 10%;
-  background: blue;
+.answer_edit{
+  width: 5%;
+  padding: 0.5%;
   font-size: 0.8vw;
-  margin-right: 0;
-
+  margin-left: 1%;
+  background-color: blue;
+  opacity: 1;
+  color: ghostwhite;
 }
+
 .edit{
   width: 5%;
   padding: 0.5%;
   font-size: 0.8vw;
   margin-left: 1%;
   background-color: blue;
-  opacity: 0.3;
+  opacity: 0.5;
+  color: ghostwhite;
 }
 
 .edit:hover ,.delete:hover{
@@ -1090,4 +1103,14 @@ h4{
    transform: scale(1.1);
  }
 
+}
+
+/** styling coment_holder **/
+.comment_holder span{
+  float: right;
+}
+.comment_labels{
+  margin-bottom: 1%;
+  box-shadow: 1px 1px 1px #B0BEC5;
+  border-radius: 10px
 }

@@ -94,14 +94,14 @@
       <form class="" method="post" onsubmit="post_question(event)" id="question_form">
         <fieldset>
           <legend>Ask Question</legend>
-          <h4 id="error"></h>
+          <h4 id="error"></h4>
           <input required type="text" name="title" placeholder="Questin title" value="">
           <br>
           <textarea required name="description" rows="10" placeholder="Question description" cols="80"></textarea>
         </fieldset>
         <br>
         <br>
-        <button id="ask" type="submit" onclick="post_question(event)" name="button">Ask</button>
+        <button id="ask" type="submit" onclick="" name="button">Ask</button>
         <button id="cancel" onclick="close_modal()"  type="button" name="button">Cancel</button>
       </form>
     </div>
@@ -116,7 +116,7 @@
               <textarea required name="description" rows="10" placeholder="Question description" cols="80"></textarea>
             </fieldset>
             <br>
-            <button id="ask" type="submit" onclick="update_question(event)" name="button">Update</button>
+            <button id="update" class="ask" type="submit" onclick="" name="button">Update</button>
             <button id="cancel" onclick="close_update_modal()"  type="button" name="button">Cancel</button>
           </form>
         </div>

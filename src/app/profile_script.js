@@ -5,40 +5,45 @@ var user  = parseJwt(token)["identity"]; // decode token
 const forum_content =document.getElementById('forum_content');
 var form  = document.getElementById('question_form');
 var update_form = document.getElementById('update_form');
-var question_modal = document.getElementById('question_modal')
-var update_modal = document.getElementById('update_modal')
-var error = document.getElementById('error')
-var username = document.getElementById('username')
-var question_answered = document.getElementById('question_answered')
-var question_asked = document.getElementById('question_asked')
-var delete_modal = document.getElementById('delete_modal')
-var delet_cancel_btn =  document.getElementById('delet_cancel_btn')
-var loading_image = document.getElementById('loading_image')
-var delete_title = document.getElementById('delete_title')
-delet_cancel_btn.addEventListener("click",close_delete_modal)
-delete_modal.style.display = "none"
+var question_modal = document.getElementById('question_modal');
+var update_modal = document.getElementById('update_modal');
+var error = document.getElementById('error');
+var username = document.getElementById('username');
+var question_answered = document.getElementById('question_answered');
+var question_asked = document.getElementById('question_asked');
+var ask_btn = document.getElementById('ask');
+var update_btn = document.getElementById('update')
+var delete_modal = document.getElementById('delete_modal');
+var delet_cancel_btn =  document.getElementById('delet_cancel_btn');
+var loading_image = document.getElementById('loading_image');
+var delete_title = document.getElementById('delete_title');
 loading_image.style.display = "none"
 var questions
-var loader = document.getElementById('loader')
-username.innerHTML = user['username']
-window.onload = get_user_questions();
+var loader = document.getElementById('loader');
+username.innerHTML = user['username'];
+
+class UserDetails {
+
+
+  constructor() {}
 
 // get user questions and populate it to the views
-function get_user_questions(){
+ get_user_questions(id){
   loader.style.display = "block"
-  var url = "https://stackoverflowgidraf.herokuapp.com/api/v1/user/questions/" + user["userid"]
+  var url = " https://stackoverflowgidraf.herokuapp.com/api/v1/user/questions/" + id
   fetch(url,{
   method: "GET",
   headers: {"content-type":"application/json; charset = UTF-8",
   "Authorization":"Bearer "+token
-}}
-).then(function(response){
+}
+}
+).then( function (response){
   if (response.status === 200){
     loader.style.display = "none"
     response.json().then(function (data){
       questions = data["result"];
       question_asked.innerHTML = questions.length + " questions"
-      for (i=0;i<questions.length;i++){
+      for (var i=0;i<questions.length;i++){
         var question_holder = document.createElement("div")
         var image_holder  = document.createElement("div")
         var username = document.createElement("span")
@@ -60,14 +65,14 @@ function get_user_questions(){
         username.className = "username";
         delete_btn.className = "delete"
         delete_btn.id = questions[i]["questions"]["questionid"]
-        delete_btn.addEventListener('click',open_delete_modal)
+        delete_btn.addEventListener('click',userDetails.open_delete_modal)
         edit_btn.className = "edit"
         edit_btn.idValue = questions[i]["questions"]["questionid"]
         edit_btn.titleValue = questions[i]["questions"]["title"]
         edit_btn.descriptionValue = questions[i]["questions"]["description"]
         question_link.questionid = questions[i]["questions"]["questionid"]
           question_title.questionid = questions[i]["questions"]['questionid']
-        question_link.addEventListener("click",storeid)
+        question_link.addEventListener("click",userDetails.storeid)
         question_link.href = "question.html";
         image.src = "static/css/img/avatar.png";
         image_holder.appendChild(image);
@@ -79,7 +84,7 @@ function get_user_questions(){
         time.innerHTML = questions[i]["questions"]["time_created"]
         delete_btn.innerHTML = "Delete"
         edit_btn.innerHTML = "Edit"
-        edit_btn.addEventListener("click",show_update_modal)
+        edit_btn.addEventListener("click",userDetails.show_update_modal)
         question_link.appendChild(question_title)
         question_holder.appendChild(image_holder)
         question_holder.appendChild(username)
@@ -108,25 +113,14 @@ function get_user_questions(){
     })
 
   }
-}).then(function (data){
-
-})
+});
 }
-// decode token
-function parseJwt (token) {
-            var base64Url = token.split('.')[1];
-            var base64 = base64Url.replace('-', '+').replace('_', '/');
-            return JSON.parse(window.atob(base64));
-};
 // post question
-function post_question(e){
+ post_question(data){
   var token = localStorage.getItem("token")
-  e.preventDefault();
   loader.style.zIndex = "2"
   loader.style.display = "block"
-  data = JSON.stringify({title:form.title.value,
-    description:form.description.value})
-  url = "https://stackoverflowgidraf.herokuapp.com/api/v1/add_question"
+  var url = " https://stackoverflowgidraf.herokuapp.com/api/v1/add_question"
   fetch(url,{
     method:"POST",
     body :data,
@@ -140,15 +134,16 @@ function post_question(e){
     }
     form.title.value = "";
     form.description.value = "";
-    get_user_questions()
+    userDetails.get_user_questions(user["userid"])
     close_modal()
     loader.style.display = "none"
   }
   else if (response.status ===  400)  {
     response.json().then(function (data){
-      error.style.display = "block"
+      error.style.display = "inline"
       error.textContent = data["error"]
       loader.style.display = "none"
+      form.style.display ="block"
     })
   }
   else if (response.status === 404) {
@@ -163,11 +158,11 @@ function post_question(e){
 }
 
 // delete question
-function delete_question(event) {
-  id = event.target.questionid
+ delete_question(event) {
+  var id = event.target.questionid
   loading_image.style.display = "inline"
   var holder = document.getElementById('qh'+id)
-  url = "https://stackoverflowgidraf.herokuapp.com/api/v1/delete_question/"+id
+  var url = " https://stackoverflowgidraf.herokuapp.com/api/v1/delete_question/"+id
   fetch(url,{
     method: "delete",
     headers:{"content-type":"application/json; charset = UTF-8",
@@ -177,7 +172,7 @@ function delete_question(event) {
   if (response.status === 200){
     loading_image.style.display = "none"
     delete_title.textContent = "Deleted!!"
-    window.setTimeout(close_delete_modal,1500)
+    window.setTimeout(userDetails.close_delete_modal,100)
     forum_content.removeChild(holder)
     question_asked.innerHTML = forum_content.children.length + " Questions"
   }
@@ -187,19 +182,19 @@ function delete_question(event) {
 })
 }
 
-function show_update_modal(event) {
+ show_update_modal(event) {
   update_form.title.value= event.target.titleValue
   update_form.title.id=event.target.idValue // store id value to title
   update_form.description.value = event.target.descriptionValue
   update_modal.classList.toggle('question_modal')
 }
 
-function update_question(event){
+ update_question(event){
   event.preventDefault();
   var update_error = document.getElementById('update_error')
   var question = document.getElementById('qt'+ update_form.title.id)
-  url = "https://stackoverflowgidraf.herokuapp.com/api/v1/update_question/"+ update_form.title.id
-  data = JSON.stringify({"title":update_form.title.value,
+  var url = " https://stackoverflowgidraf.herokuapp.com/api/v1/update_question/"+ update_form.title.id
+  var data = JSON.stringify({"title":update_form.title.value,
   "description":update_form.description.value})
   fetch(url,{
     method: "PUT",
@@ -210,7 +205,7 @@ function update_question(event){
 }).then(function (response) {
   if (response.status === 200){
     question.innerHTML = update_form.title.value
-    close_update_modal()
+    userDetails.close_update_modal()
   }
   else if (response.status === 400) {
     response.json().then(function (data){
@@ -223,31 +218,51 @@ function update_question(event){
 })
 }
 
-function close_update_modal() {
+ close_update_modal() {
   update_modal.classList.toggle("question_modal")
 }
 
-window.onclick= function (event) {
-  if(event.target==update_modal){
-    update_modal.classList.toggle('question_modal')
-  }
-}
-
-function storeid(event) {
+ storeid(event) {
   event.preventDefault();
   localStorage.setItem('id',event.target.questionid)
   window.location.href = "question.html"
 }
 
-function open_delete_modal (event){
+ open_delete_modal (event){
   event.preventDefault();
   var delete_btn = document.getElementById('delete_btn')
   delete_btn.questionid = event.target.id
   delete_modal.style.display = "block"
-  delete_btn.addEventListener("click",delete_question)
+  delete_btn.addEventListener("click",userDetails.delete_question)
 }
 
-function close_delete_modal(){
+ close_delete_modal(){
   delete_title.textContent = "Are sure you want to delete!!"
   delete_modal.style.display = "none"
 }
+}
+
+function parseJwt (token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse(window.atob(base64));
+}
+  window.onclick= function (event) {
+    if(event.target==update_modal){
+      update_modal.classList.toggle('question_modal')
+    }
+  }
+
+  function post_question(event) {
+    event.preventDefault();
+    var data = JSON.stringify({title:form.title.value,
+       description:form.description.value})
+       userDetails.post_question(data)
+  }
+
+userDetails = new UserDetails()
+userDetails.get_user_questions(user["userid"])
+delet_cancel_btn.addEventListener("click",userDetails.close_delete_modal)
+update_btn.addEventListener("click",userDetails.update_question)
+ask_btn.addEventListener("click", post_question)
+delete_modal.style.display = "none"

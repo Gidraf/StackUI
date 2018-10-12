@@ -1,0 +1,30 @@
+{
+  "name": "StackUI",
+  "version": "1.0.0",
+  "description": "StackOverflow-lite is a platform where people can ask questions and provide answers",
+  "main": "index.js",
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.6.0",
+    "es6-promise": "^4.2.5",
+    "isomorphic-fetch": "^2.2.1",
+    "regenerator-runtime": "^0.12.1"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gidraf/StackUI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gidraf/StackUI/issues"
+  },
+  "homepage": "https://github.com/Gidraf/StackUI#readme"
+}
