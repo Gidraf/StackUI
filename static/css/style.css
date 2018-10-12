@@ -957,14 +957,15 @@ h4{
    font-size: 1.1vw;
  }
 
- #cancel{
+ .show{
+   display: block;
+ }
+
+ #update_cancel{
    width: 30%;
    float: left;
    background-color: red;
    font-size: 1.1vw;
- }
- .show{
-   display: block;
  }
 .home_content{
   color: white;

@@ -260,9 +260,13 @@ function parseJwt (token) {
        userDetails.post_question(data)
   }
 
-userDetails = new UserDetails()
-userDetails.get_user_questions(user["userid"])
-delet_cancel_btn.addEventListener("click",userDetails.close_delete_modal)
-update_btn.addEventListener("click",userDetails.update_question)
-ask_btn.addEventListener("click", post_question)
-delete_modal.style.display = "none"
+userDetails = new UserDetails();
+var close_update_bt = document.getElementById('update_cancel');
+close_update_bt.addEventListener("click", () =>{
+  userDetails.close_update_modal();
+})
+userDetails.get_user_questions(user["userid"]);
+delet_cancel_btn.addEventListener("click",userDetails.close_delete_modal);
+update_btn.addEventListener("click",userDetails.update_question);
+ask_btn.addEventListener("click", post_question);
+delete_modal.style.display = "none";
