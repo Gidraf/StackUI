@@ -17,6 +17,8 @@ var delete_modal = document.getElementById('delete_modal');
 var delet_cancel_btn =  document.getElementById('delet_cancel_btn');
 var loading_image = document.getElementById('loading_image');
 var delete_title = document.getElementById('delete_title');
+var search_form = document.getElementById("search_form");
+search_form.style.opacity = 0;
 loading_image.style.display = "none"
 var questions
 var loader = document.getElementById('loader');
@@ -30,7 +32,7 @@ class UserDetails {
 // get user questions and populate it to the views
  get_user_questions(id){
   loader.style.display = "block"
-  var url = "  http://stackoverflowgidraf.herokuapp.com/api/v1/user/questions/" + id
+  var url = "  http://127.0.0.1:5000/api/v1/user/questions/" + id
   fetch(url,{
   method: "GET",
   headers: {"content-type":"application/json; charset = UTF-8",
@@ -120,7 +122,7 @@ class UserDetails {
   var token = localStorage.getItem("token")
   loader.style.zIndex = "2"
   loader.style.display = "block"
-  var url = "  http://stackoverflowgidraf.herokuapp.com/api/v1/add_question"
+  var url = "  http://127.0.0.1:5000/api/v1/add_question"
   fetch(url,{
     method:"POST",
     body :data,
@@ -162,7 +164,7 @@ class UserDetails {
   var id = event.target.questionid
   loading_image.style.display = "inline"
   var holder = document.getElementById('qh'+id)
-  var url = "  http://stackoverflowgidraf.herokuapp.com/api/v1/delete_question/"+id
+  var url = "  http://127.0.0.1:5000/api/v1/delete_question/"+id
   fetch(url,{
     method: "delete",
     headers:{"content-type":"application/json; charset = UTF-8",
@@ -193,7 +195,7 @@ class UserDetails {
   event.preventDefault();
   var update_error = document.getElementById('update_error')
   var question = document.getElementById('qt'+ update_form.title.id)
-  var url = "  http://stackoverflowgidraf.herokuapp.com/api/v1/update_question/"+ update_form.title.id
+  var url = "  http://127.0.0.1:5000/api/v1/update_question/"+ update_form.title.id
   var data = JSON.stringify({"title":update_form.title.value,
   "description":update_form.description.value})
   fetch(url,{

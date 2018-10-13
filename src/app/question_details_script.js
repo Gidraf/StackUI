@@ -12,6 +12,9 @@ var delete_title = document.getElementById('delete_title')
 delete_modal.style.display = "none"
 loading_image.style.display = "none"
 var answerForm = document.getElementById('answerForm');
+var search_form = document.getElementById("search_form");
+search_form.style.opacity = 0;
+
 
 // populate
 
@@ -28,7 +31,7 @@ constructor(){
 }
 
  get_question_details(id){
-  var url = "  http://stackoverflowgidraf.herokuapp.com/api/v1/answers/"+id
+  var url = "  http://127.0.0.1:5000/api/v1/answers/"+id
   return fetch(url,{
     method:"GET",
     headers: {"content-type":"application/json; charset = UTF-8",
@@ -220,7 +223,7 @@ constructor(){
 update_answer(id,data){
   var lc = document.getElementById("li"+id)
   lc.style.display = "block"
-  var url = "  http://stackoverflowgidraf.herokuapp.com/api/v1/update_answer/"+id
+  var url = "  http://127.0.0.1:5000/api/v1/update_answer/"+id
   return fetch(url,{
     method:"PUT",
     body: data,
@@ -253,7 +256,7 @@ update_answer(id,data){
 post_answer (data){
   var id = localStorage.getItem('id');
   loader.style.display = "block";
-  var url = "  http://stackoverflowgidraf.herokuapp.com/api/v1/answers/"+id;
+  var url = "  http://127.0.0.1:5000/api/v1/answers/"+id;
   return fetch(url,{
     method:"POST",
     body:data,
@@ -306,7 +309,7 @@ delete_current_answer(e){
 
 delete_answer(id){
   loading_image.style.display = "inline"
-  var url ="  http://stackoverflowgidraf.herokuapp.com/api/v1/delete_answer/"+id
+  var url ="  http://127.0.0.1:5000/api/v1/delete_answer/"+id
   var current_answer_holder = document.getElementById('ah'+ id)
   return fetch(url,{
     method:"DELETE",
@@ -335,7 +338,7 @@ upvote_current_answer(event){
 upvote_answer(answerid){
   var id = event.target.answerid
   loader.style.display = "block"
-  var url = url ="  http://stackoverflowgidraf.herokuapp.com/api/v1/upvote/"+answerid
+  var url = url ="  http://127.0.0.1:5000/api/v1/upvote/"+answerid
   var data = JSON.stringify({})
   return fetch(url,{
     method:"PATCH",
@@ -370,7 +373,7 @@ downvote_current_answers(event){
 downvote_answers(answerid){
   loader.style.display = "block"
   var id = event.target.answerid
-  var url = url ="  http://stackoverflowgidraf.herokuapp.com/api/v1/downvote/"+answerid
+  var url = url ="  http://127.0.0.1:5000/api/v1/downvote/"+answerid
   var data = JSON.stringify({})
   return fetch(url,{
     method:"PATCH",
@@ -396,7 +399,7 @@ else if (response.status == 400) {
 
 mark_as_prefered(answerid){
   loader.style.display= "block"
-  var url = "  http://stackoverflowgidraf.herokuapp.com/api/v1/mark_answer/"+answerid
+  var url = "  http://127.0.0.1:5000/api/v1/mark_answer/"+answerid
   var data = JSON.stringify({})
   return fetch(url,{
     method:"PATCH",
@@ -437,7 +440,7 @@ get_votes (votes_list, votes_labels, upvote, downvote) {
   }
 
   get_answer_comments(comments_holder, answerid){
-    var url = " http://stackoverflowgidraf.herokuapp.com/api/v1/comments/"+answerid;
+    var url = " http://127.0.0.1:5000/api/v1/comments/"+answerid;
     var comment_title = document.createElement('h4')
     var comment_container = document.createElement('div');
     var comment_form = document.createElement('form');
@@ -497,7 +500,7 @@ get_votes (votes_list, votes_labels, upvote, downvote) {
     })
   }
 post_comment(id, data, comment_error){
-  var url = " http://stackoverflowgidraf.herokuapp.com/api/v1/add_comment/"+id;
+  var url = " http://127.0.0.1:5000/api/v1/add_comment/"+id;
   return fetch(url,{
     method:"POST",
     body:data,
@@ -542,5 +545,3 @@ event.preventDefault();
 data = JSON.stringify({answer_text:answerForm.answer.value});
 questionDetails.post_answer(data);
 }
-
-// module.exports = questionDetails;
