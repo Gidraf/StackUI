@@ -12,7 +12,7 @@
 
 function register_user(e)
 {
-  const register_url = "  http://127.0.0.1:5000/auth/register"
+  const register_url = "  http://stackoverflowgidraf.herokuapp.com/auth/register"
   e.preventDefault();
   loader.style.display = "block"
   const signupform=document.getElementById('signupform')
@@ -72,7 +72,7 @@ function register_user(e)
 
 function login_user(e)
 {
-  const login_url = "  http://127.0.0.1:5000/auth/login"
+  const login_url = "  http://stackoverflowgidraf.herokuapp.com/auth/login"
   e.preventDefault();
   loader.style.display = "block"
   signinForm = document.getElementById('signinForm')

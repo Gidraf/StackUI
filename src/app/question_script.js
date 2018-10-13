@@ -14,9 +14,8 @@ class Questions{
   }
 
  get_questions() {
-  loader.style.display = "none"
   // fetch all questions from the backend
-  var url=" http://127.0.0.1:5000/api/v1/questions"
+  var url=" http://stackoverflowgidraf.herokuapp.com/api/v1/questions"
   return fetch(url).then(function (response){
     if (response.status === 200){
       response_status = true;
@@ -94,7 +93,7 @@ fetch_questions(data){
   const error = document.getElementById('error');
   loader.style.zIndex = "2"
   loader.style.display = "block";
-  var url = "  http://127.0.0.1:5000/api/v1/add_question";
+  var url = "  http://stackoverflowgidraf.herokuapp.com/api/v1/add_question";
   return fetch(url,{
     method:"POST",
     body :data,
@@ -160,7 +159,7 @@ function show_search_screen(){
     if (!input){
       return questions.get_questions();
     }
-    var url = " http://127.0.0.1:5000/api/v1/search_question";
+    var url = " http://stackoverflowgidraf.herokuapp.com/api/v1/search_question";
     data = JSON.stringify({search_text:input});
 
     fetch(url,{
