@@ -2,13 +2,17 @@
   const error = document.getElementById('error')
   // var loader = document.getElementById('loader')
   var loader =document.getElementById('load')
+  var success_image = document.getElementById('successAnimation');
+  if (success_image){
+      success_image.style.display = "none"
+  }
   // load.style.display = "none"
   loader.style.display = "none"
   // loader.style.display = "none"
 
 function register_user(e)
 {
-  const register_url = " https://stackoverflowgidraf.herokuapp.com/auth/register"
+  const register_url = "  http://127.0.0.1:5000/auth/register"
   e.preventDefault();
   loader.style.display = "block"
   const signupform=document.getElementById('signupform')
@@ -24,6 +28,7 @@ function register_user(e)
     }).then(function (response){
       if (response.status === 201) {
       loader.style.display = "none";
+      success_image.style.display = "block"
       response.json().then( function (data) {
       error.style.color = "green";
       error.style.display = "block";
@@ -67,7 +72,7 @@ function register_user(e)
 
 function login_user(e)
 {
-  const login_url = " https://stackoverflowgidraf.herokuapp.com/auth/login"
+  const login_url = "  http://127.0.0.1:5000/auth/login"
   e.preventDefault();
   loader.style.display = "block"
   signinForm = document.getElementById('signinForm')
@@ -90,10 +95,9 @@ function login_user(e)
        else if  (response.status === 401 || response.status === 400) {
          response.json().then(
            function (data){
-             loader.style.display = "none"
-             error.style.display="block"
-             error.innerHTML = data["error"]
-             console.log(data["error"]);
+             loader.style.display = "none";
+             error.style.display="block";
+             error.innerHTML = data["error"];
            }
          )
        }

@@ -35,12 +35,14 @@
         <button id="ask_question" onclick="open_model()" type="button" name="ask_questin">Ask Question</button>
       </a>
       <!-- search bar field-->
-      <div class="search_form">
-        <form action="#">
-          <input type="search" name="search" placeholder="Search" value="">
+      <div id="search_form" class="search_form">
+        <form id="" action="#">
+              <input id="search_input" type="search" name="search" placeholder="Search" value="">
           <input id="search_btn" type="image" name="search" src="static/css/img/search_image.png" value="">
+          <br>
         </form>
       </div>
+      <span class="error" id="search_error"></span>
     </div>
 
   <div class="clear">
@@ -50,14 +52,6 @@
       <a href="#">
         <span>Home</span>
       <img src="static/css/img/refresh_btn.png" alt="">
-      </a>
-
-      <a href="#">
-        <span>All Questions</span>
-      </a>
-
-      <a href="#">
-        <span>Hot questions</span>
       </a>
     </div>
     <div class="container">
