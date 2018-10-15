@@ -1204,3 +1204,7 @@ h4{
     animation: 0.3s linear 0.9s both fadeIn;
   }
 }
+
+#search_error{
+  margin-left: 25%;
+}
